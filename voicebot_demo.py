@@ -10,7 +10,7 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 st.title("🎤 VoiceBot Assistant (Deepgram + GPT-4)")
 st.write("Upload a voice message simulating a customer support query. We'll transcribe it with Deepgram and reply using GPT-4.")
 
-uploaded_file = st.file_uploader("Upload your voice question (WAV/MP3)", type=["wav", "mp3"])
+uploaded_file = st.file_uploader("Upload your voice question", type=["wav", "mp3", "m4a"])
 
 if uploaded_file is not None:
     st.audio(uploaded_file, format="audio/wav")
@@ -19,7 +19,7 @@ if uploaded_file is not None:
             "https://api.deepgram.com/v1/listen",
             headers={
                 "Authorization": f"Token {DEEPGRAM_API_KEY}",
-                "Content-Type": uploaded_file.type
+                "Content-Type": uploaded_file.type or "audio/m4a"
             },
             data=uploaded_file
         )
